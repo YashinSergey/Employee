@@ -1,20 +1,18 @@
-package com.iashinsergei.employee.data.repository;
+package com.iashinsergei.employee.data.database;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
-import com.iashinsergei.employee.data.database.EmployeeDao;
-import com.iashinsergei.employee.data.database.EmployeeDatabase;
 import com.iashinsergei.employee.data.entity.Employee;
 
 import java.util.List;
 
-public class Repository {
+public class RoomHelper {
 
     private EmployeeDao employeeDao;
     private List<Employee> employeeList;
 
-    public Repository(Application application) {
+    public RoomHelper(Application application) {
         EmployeeDatabase database = EmployeeDatabase.getInstance(application);
         employeeDao = database.employeeDao();
         employeeList = employeeDao.getAllEmployees();
