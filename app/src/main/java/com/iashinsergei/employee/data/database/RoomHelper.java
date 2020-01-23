@@ -48,16 +48,19 @@ public class RoomHelper {
         return employeeList;
     }
 
-    public void getById(int id) {
-        employeeDao.getById(id);
+    public Employee getById(int id) {
+        if (identityMap.containsKey(id)) {
+            return identityMap.get(id);
+        }
+        return employeeDao.getById(id);
     }
 
-    public void getByName(String name) {
-        employeeDao.getByName(name);
+    public Employee getByName(String name) {
+        return employeeDao.getByName(name);
     }
 
-    public void getBySurname(String surname) {
-        employeeDao.getBySurname(surname);
+    public Employee getBySurname(String surname) {
+        return employeeDao.getBySurname(surname);
     }
 
     private static class InsertEmployeeAsyncTask extends AsyncTask<Employee, Void, Void> {
