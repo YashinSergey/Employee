@@ -1,37 +1,47 @@
 package com.iashinsergei.employee.data.database;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
 import com.iashinsergei.employee.data.entity.Employee;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RoomHelper {
 
     private EmployeeDao employeeDao;
     private List<Employee> employeeList;
+    private Map<Integer, Employee> identityMap;
 
+    @SuppressLint("UseSparseArrays")
     public RoomHelper(Context context) {
         EmployeeDatabase database = EmployeeDatabase.getInstance(context);
         employeeDao = database.employeeDao();
         employeeList = employeeDao.getAllEmployees();
+        identityMap = new HashMap<>();
     }
 
     public void insert(Employee employee) {
         new InsertEmployeeAsyncTask(employeeDao).execute(employee);
+        identityMap.put(employee.getId(), employee);
     }
 
     public void update(Employee employee) {
         new UpdateEmployeeAsyncTask(employeeDao).execute(employee);
+        identityMap.replace(employee.getId(), employee);
     }
 
     public void delete(Employee employee) {
         new DeleteEmployeeAsyncTask(employeeDao).execute(employee);
+        identityMap.remove(employee.getId());
     }
 
     public void deleteAllEmployees() {
         new DeleteAllEmployeesAsyncTask(employeeDao).execute();
+        identityMap.clear();
     }
 
     public List<Employee> getAllEmployees() {
