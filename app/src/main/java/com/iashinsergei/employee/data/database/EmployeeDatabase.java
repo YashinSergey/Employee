@@ -24,6 +24,7 @@ public abstract class EmployeeDatabase extends RoomDatabase {
                     EmployeeDatabase.class, "employee_database" )
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
+                    .allowMainThreadQueries()
                     .build();
         }
         return instance;
@@ -51,6 +52,10 @@ public abstract class EmployeeDatabase extends RoomDatabase {
             employeeDao.insert(new Employee("Daenerys", "Targaryen", 18, "dragons mom"));
             employeeDao.insert(new Employee("Yoda", "unknown", 900, "master"));
             employeeDao.insert(new Employee("Freddy", "Krueger", 41, "maniac"));
+            employeeDao.insert(new Employee("Leon", "-", 35, "killer"));
+            employeeDao.insert(new Employee("Sherlock", "Holmes", 30, "private detective"));
+            employeeDao.insert(new Employee("Indiana", "Jones", 32, "professor"));
+            employeeDao.insert(new Employee("James", "Bond", 30, "agent 007"));
             return null;
         }
     }
