@@ -1,6 +1,6 @@
 package com.iashinsergei.employee.data.database;
 
-import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.iashinsergei.employee.data.entity.Employee;
@@ -12,8 +12,8 @@ public class RoomHelper {
     private EmployeeDao employeeDao;
     private List<Employee> employeeList;
 
-    public RoomHelper(Application application) {
-        EmployeeDatabase database = EmployeeDatabase.getInstance(application);
+    public RoomHelper(Context context) {
+        EmployeeDatabase database = EmployeeDatabase.getInstance(context);
         employeeDao = database.employeeDao();
         employeeList = employeeDao.getAllEmployees();
     }
