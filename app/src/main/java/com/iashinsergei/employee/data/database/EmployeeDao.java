@@ -26,10 +26,10 @@ public interface EmployeeDao {
     Employee getById(int id);
 
     @Query("SELECT * FROM employees_table WHERE name LIKE :name")
-    List<Employee> getByName(String name);
+    Employee getByName(String name);
 
     @Query("SELECT * FROM employees_table WHERE surname LIKE :surname")
-    List<Employee> getBySurname(String surname);
+    Employee getBySurname(String surname);
 
     @Delete
     void delete(Employee employee);
