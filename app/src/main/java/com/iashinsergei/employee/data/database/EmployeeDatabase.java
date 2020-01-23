@@ -1,10 +1,13 @@
 package com.iashinsergei.employee.data.database;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.iashinsergei.employee.data.entity.Employee;
 
@@ -20,8 +23,35 @@ public abstract class EmployeeDatabase extends RoomDatabase {
             instance = Room.databaseBuilder(context.getApplicationContext(),
                     EmployeeDatabase.class, "employee_database" )
                     .fallbackToDestructiveMigration()
+                    .addCallback(roomCallback)
                     .build();
         }
         return instance;
+    }
+
+    private static RoomDatabase.Callback roomCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onCreate(@NonNull SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            new PopulateDbAsyncTask(instance).execute();
+        }
+    };
+
+    private static class PopulateDbAsyncTask extends AsyncTask<Void, Void, Void> {
+
+        private EmployeeDao employeeDao;
+
+        PopulateDbAsyncTask(EmployeeDatabase database) {
+            employeeDao = database.employeeDao();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            employeeDao.insert(new Employee("Lilu", "Dallas", 19, "saviour"));
+            employeeDao.insert(new Employee("Daenerys", "Targaryen", 18, "dragons mom"));
+            employeeDao.insert(new Employee("Yoda", "unknown", 900, "master"));
+            employeeDao.insert(new Employee("Freddy", "Krueger", 41, "maniac"));
+            return null;
+        }
     }
 }
